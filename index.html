@@ -1545,37 +1545,47 @@
     slide.dataset.annotated = '1';
   }
 
-  // ==== 全站可编辑元素选择器（进入编辑模式时全部变成 contenteditable） ====
-  // 排除 iframe / img / edit-badge / 只读控件等
-  const EDITABLE_SELECTOR = [
-    '.slide-title', '.slide-subtitle',
-    '.pc-eyebrow', '.pc-title', '.pc-tagline',
-    '.pc-case-card .pcc-idx', '.pc-case-card .pcc-name', '.pc-case-card .pcc-tag',
-    '.cm-val', '.cm-lbl',
-    '.ch-row', '.ch-row b',
-    '.case-takeaway',
-    '.cs-shot-hd', '.cs-shot-note',
-    '.mn-col-hd', '.mn-col-body', '.mn-col p', '.mn-col li',
-    // 蒙牛 818 / 日播等自定义结构
-    '.m818-shot-hd', '.m818-shot-note', '.mp-title', '.mp-desc',
-    '.md-shots-hd', '.md-cap', '.md-play .mp-title', '.md-play .mp-desc',
-    // 底部映射页
-    '.fp-bottom', '.fp-bottom b'
+  // ==== 全站可编辑元素识别（黑名单方式：除排除项外，所有含文字的元素都开）====
+  const EDIT_SKIP_SELECTOR = [
+    'script','style','iframe','img','svg','canvas','video','audio',
+    'input','textarea','select','button',
+    '.edit-badge','.edit-flag','.edit-export',
+    '.hint','.nav','.pager','.page-num','.toolbar',
+    '.slide-num','.slide-nav','.slide-footer',
+    '.slide','.slide-inner','section','main','header','footer','aside','nav'
   ].join(',');
 
+  function hasOwnText(el){
+    for (const n of el.childNodes) {
+      if (n.nodeType === 3 && n.nodeValue && n.nodeValue.trim().length > 0) return true;
+    }
+    return false;
+  }
+
+  function collectEditables(){
+    const skip = EDIT_SKIP_SELECTOR;
+    const out = [];
+    document.querySelectorAll('.slide *').forEach(el => {
+      if (el.matches(skip)) return;
+      if (el.closest('.edit-badge,.edit-flag,.edit-export,.hint,.slide-num,.slide-nav,.pager,.toolbar,iframe,script,style')) return;
+      if (!hasOwnText(el)) return;
+      out.push(el);
+    });
+    return out;
+  }
+
   function setSlideEditable(on){
-    document.querySelectorAll(EDITABLE_SELECTOR).forEach(el => {
-      // 跳过 badge 本身
-      if (el.classList.contains('edit-badge')) return;
-      if (on) {
+    if (on) {
+      collectEditables().forEach(el => {
         el.setAttribute('contenteditable', 'true');
         el.setAttribute('spellcheck', 'false');
-        // 记录原始文本（首次进入编辑模式）
         if (!el.dataset.origText) el.dataset.origText = el.innerText;
-      } else {
+      });
+    } else {
+      document.querySelectorAll('[contenteditable="true"]').forEach(el => {
         el.removeAttribute('contenteditable');
-      }
-    });
+      });
+    }
   }
 
   function toggleEditMode(){
