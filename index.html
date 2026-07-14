@@ -1421,7 +1421,7 @@
   <button onclick="toggleFullscreen()">全屏</button>
 </div>
 
-<div class="hint">← → 翻页 · F 全屏 · Home/End 首末页 · <b style="color:#ffd97a">E 编辑模式（直接点击文字修改）</b></div>
+<div class="hint">← → 翻页 · F 全屏 · Home/End 首末页 · <b style="color:#ffd97a">E 进入编辑 / Esc 退出编辑</b>（编辑模式中所有翻页快捷键失效）</div>
 <div class="edit-flag" onclick="toggleEditMode()">✏️ 编辑模式 ON · 点击文字直接改 · 按 E 退出</div>
 <div class="edit-export" onclick="exportEdits()">💾 导出改动</div>
 
@@ -1457,10 +1457,33 @@
     else document.exitFullscreen();
   }
 
+  // ===== 判断当前是否处在"文字输入态"（编辑模式内、输入框内、聚焦到可编辑元素上）=====
+  function isTyping(e){
+    const t = e && e.target;
+    if (t) {
+      const tag = t.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA') return true;
+      if (t.isContentEditable) return true;
+      if (t.closest && t.closest('[contenteditable="true"]')) return true;
+    }
+    const a = document.activeElement;
+    if (a) {
+      const tag = a.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA') return true;
+      if (a.isContentEditable) return true;
+      if (a.closest && a.closest('[contenteditable="true"]')) return true;
+    }
+    if (document.body.classList.contains('edit-mode')) return true;
+    return false;
+  }
+
   document.addEventListener('keydown', e => {
-    // 正在编辑文字时，任何快捷键都不触发（避免打字冲突：E 退出编辑、空格翻页等）
-    const t = e.target;
-    if (t && (t.isContentEditable || t.tagName === 'INPUT' || t.tagName === 'TEXTAREA')) return;
+    if (isTyping(e)) {
+      if (e.key === 'Escape' && document.body.classList.contains('edit-mode')) {
+        toggleEditMode();
+      }
+      return;
+    }
     if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); next(); }
     else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); prev(); }
     else if (e.key === 'Home') { go(0); }
