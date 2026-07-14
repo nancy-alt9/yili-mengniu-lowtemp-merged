@@ -1458,6 +1458,9 @@
   }
 
   document.addEventListener('keydown', e => {
+    // 正在编辑文字时，任何快捷键都不触发（避免打字冲突：E 退出编辑、空格翻页等）
+    const t = e.target;
+    if (t && (t.isContentEditable || t.tagName === 'INPUT' || t.tagName === 'TEXTAREA')) return;
     if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); next(); }
     else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); prev(); }
     else if (e.key === 'Home') { go(0); }
