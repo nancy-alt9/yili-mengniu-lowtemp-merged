@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>认养一头牛 · 好友日案例</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  body {
+    font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    background: #e8eef5;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .poster {
+    width: 1200px;
+    background: linear-gradient(180deg, #1a4fa0 0%, #2d6fd4 8%, #e8f1fb 12%, #edf3fa 100%);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.15);
+    padding-bottom: 0;
+  }
+
+  /* ===== HEADER ===== */
+  .header {
+    padding: 28px 40px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+  }
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .brand-logo {
+    width: 52px;
+    height: 52px;
+    background: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    font-size: 11px;
+    font-weight: 700;
+    color: #1a4fa0;
+    text-align: center;
+    line-height: 1.2;
+  }
+  .header-title {
+    color: #fff;
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1.4;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  }
+  .header-title .sub {
+    font-size: 13px;
+    font-weight: 400;
+    opacity: 0.85;
+    display: block;
+    margin-top: 2px;
+  }
+  .header-right {
+    text-align: right;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    opacity: 0.9;
+    letter-spacing: 1px;
+  }
+  .header-right .logo-text {
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 2px;
+  }
+
+  /* ===== METRICS BAR ===== */
+  .metrics-bar {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    padding: 0 36px;
+    margin-top: 10px;
+    margin-bottom: 22px;
+  }
+  .metric-card {
+    background: rgba(255,255,255,0.95);
+    border-radius: 10px;
+    text-align: center;
+    padding: 14px 8px;
+    box-shadow: 0 2px 8px rgba(26,79,160,0.08);
+    border: 1px solid rgba(255,255,255,0.8);
+  }
+  .metric-card .mc-label {
+    font-size: 11px;
+    color: #666;
+    margin-bottom: 4px;
+    letter-spacing: 1px;
+  }
+  .metric-card .mc-value {
+    font-size: 32px;
+    font-weight: 900;
+    color: #1a4fa0;
+    line-height: 1.2;
+  }
+  .metric-card .mc-value .unit {
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .metric-card .mc-value.gold {
+    color: #d4880a;
+  }
+
+  /* ===== CONTENT AREA ===== */
+  .content {
+    padding: 0 36px 24px;
+  }
+
+  /* ===== TWO COLUMN LAYOUT ===== */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .section-panel {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+    border: 1px solid #e8eef5;
+  }
+
+  .panel-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #1a4fa0;
+  }
+  .panel-header .ph-icon {
+    width: 28px;
+    height: 28px;
+    background: linear-gradient(135deg, #1a4fa0, #3d7ed4);
+    color: #fff;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .panel-header h3 {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1a4fa0;
+  }
+  .panel-header .ph-sub {
+    font-size: 12px;
+    color: #888;
+    margin-left: auto;
+  }
+
+  /* ===== 自播区域 ===== */
+  .self-live-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .sl-stat {
+    background: linear-gradient(135deg, #f0f6ff 0%, #e8f1fb 100%);
+    border-radius: 8px;
+    padding: 12px 14px;
+    text-align: center;
+    border: 1px solid #d6e4f5;
+  }
+  .sl-stat .sl-num {
+    font-size: 22px;
+    font-weight: 900;
+    color: #1a4fa0;
+  }
+  .sl-stat .sl-num .sl-unit {
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .sl-stat .sl-label {
+    font-size: 10px;
+    color: #666;
+    margin-top: 2px;
+  }
+
+  .strategy-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .strategy-list.single-col {
+    grid-template-columns: 1fr;
+  }
+  .strat-item {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    padding: 8px 10px;
+    background: #f8fafd;
+    border-radius: 6px;
+    border-left: 3px solid #1a4fa0;
+  }
+  .strat-item .s-num {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    background: #1a4fa0;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    margin-top: 1px;
+  }
+  .strat-item .s-content {
+    flex: 1;
+    min-width: 0;
+  }
+  .strat-item .s-title {
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #1a4fa0;
+    margin-bottom: 2px;
+  }
+  .strat-item .s-desc {
+    font-size: 10.5px;
+    color: #555;
+    line-height: 1.5;
+  }
+  .strat-item .s-desc strong {
+    color: #d4880a;
+    font-weight: 700;
+  }
+  /* 直播画面截图组 */
+  .live-shots {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 10px;
+    margin-bottom: 12px;
+    padding: 10px;
+    background: linear-gradient(135deg, #f0f6ff 0%, #e8f1fb 100%);
+    border-radius: 8px;
+    border: 1px solid #d6e4f5;
+  }
+  .live-shots.dabo {
+    background: linear-gradient(135deg, #fff8f0 0%, #fef3e6 100%);
+    border-color: #f0dfc5;
+  }
+  .live-shots .shot-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+  .live-shots .shot-item img {
+    height: 160px;
+    width: auto;
+    object-fit: contain;
+    border-radius: 6px;
+    border: 1px solid rgba(0,0,0,0.06);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    background: #fff;
+  }
+  .live-shots.dabo .shot-item img {
+    height: 180px;
+  }
+  .live-shots .shot-caption {
+    font-size: 10.5px;
+    color: #1a4fa0;
+    font-weight: 600;
+    text-align: center;
+  }
+  .live-shots.dabo .shot-caption {
+    color: #d4880a;
+  }
+
+  /* 分组标题 */
+  .sub-section-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 12px 0 8px;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #1a4fa0;
+  }
+  .sub-section-title::before {
+    content: '';
+    width: 3px;
+    height: 13px;
+    background: linear-gradient(180deg, #1a4fa0, #d4880a);
+    border-radius: 2px;
+  }
+  .sub-section-title .badge {
+    font-size: 10px;
+    color: #d4880a;
+    background: rgba(212, 136, 10, 0.1);
+    padding: 2px 8px;
+    border-radius: 100px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  /* 方法论卡片 */
+  .method-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .method-card {
+    padding: 10px 12px;
+    background: linear-gradient(135deg, #fffaf0 0%, #fff5e0 100%);
+    border-radius: 6px;
+    border-left: 3px solid #d4880a;
+    position: relative;
+  }
+  .method-card .m-title {
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #8a5300;
+    margin-bottom: 3px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .method-card .m-title .m-num {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    background: linear-gradient(135deg, #d4880a, #e8a52e);
+    color: #fff;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+  }
+  .method-card .m-desc {
+    font-size: 10.5px;
+    color: #555;
+    line-height: 1.55;
+    padding-left: 24px;
+  }
+  .method-card .m-desc strong {
+    color: #d4880a;
+    font-weight: 700;
+    background: rgba(212, 136, 10, 0.12);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+  /* 达播专用：关键动作卡（金色主题） */
+  .strat-item.dabo {
+    background: #fffaf0;
+    border-left-color: #d4880a;
+  }
+  .strat-item.dabo .s-num {
+    background: linear-gradient(135deg, #d4880a, #e8a52e);
+  }
+  .strat-item.dabo .s-title {
+    color: #8a5300;
+  }
+  .strat-item.dabo .s-desc strong {
+    color: #1a4fa0;
+    font-weight: 700;
+  }
+  /* 达播专用：方法论卡（蓝色主题，与自播形成镜像） */
+  .method-card.dabo {
+    background: linear-gradient(135deg, #f0f6ff 0%, #e8f1fb 100%);
+    border-left-color: #1a4fa0;
+  }
+  .method-card.dabo .m-title {
+    color: #1a4fa0;
+  }
+  .method-card.dabo .m-title .m-num {
+    background: linear-gradient(135deg, #1a4fa0, #2d6fd4);
+  }
+  .method-card.dabo .m-desc strong {
+    color: #1a4fa0;
+    background: rgba(26, 79, 160, 0.10);
+  }
+  /* 达播专用：分组标题（金色主题） */
+  .sub-section-title.dabo {
+    color: #8a5300;
+  }
+  .sub-section-title.dabo::before {
+    background: linear-gradient(180deg, #d4880a, #1a4fa0);
+  }
+  .sub-section-title.dabo .badge {
+    color: #1a4fa0;
+    background: rgba(26, 79, 160, 0.10);
+  }
+
+  /* ===== 达播区域 ===== */
+  .da-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .da-stat {
+    background: linear-gradient(135deg, #fff8f0 0%, #fef3e6 100%);
+    border-radius: 8px;
+    padding: 12px 14px;
+    text-align: center;
+    border: 1px solid #f0dfc5;
+  }
+  .da-stat .da-num {
+    font-size: 22px;
+    font-weight: 900;
+    color: #d4880a;
+  }
+  .da-stat .da-num .da-unit {
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .da-stat .da-label {
+    font-size: 10px;
+    color: #666;
+    margin-top: 2px;
+  }
+
+  .da-matrix {
+    margin-bottom: 14px;
+  }
+  .da-matrix-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 8px;
+    padding-left: 4px;
+  }
+  .da-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .da-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    background: #fafbfc;
+    border-radius: 6px;
+    border: 1px solid #eee;
+  }
+  .da-item .da-rank {
+    width: 22px;
+    height: 22px;
+    background: linear-gradient(135deg, #d4880a, #e8a52e);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .da-item .da-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: #333;
+    flex: 1;
+  }
+  .da-item .da-tag {
+    font-size: 10px;
+    color: #666;
+    background: #f0f0f0;
+    padding: 2px 8px;
+    border-radius: 100px;
+  }
+
+  .top-product {
+    background: linear-gradient(135deg, #f0f6ff 0%, #fff8f0 100%);
+    border-radius: 10px;
+    padding: 14px;
+    border: 1px solid #e0e8f0;
+    margin-top: 12px;
+  }
+  .top-product .tp-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #d4880a;
+    margin-bottom: 6px;
+  }
+  .top-product .tp-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1a4fa0;
+    margin-bottom: 4px;
+  }
+  .top-product .tp-desc {
+    font-size: 11px;
+    color: #555;
+    line-height: 1.6;
+  }
+  .top-product .tp-gmv {
+    font-size: 12px;
+    margin-top: 6px;
+    color: #333;
+  }
+  .top-product .tp-gmv strong {
+    font-size: 18px;
+    color: #d4880a;
+    font-weight: 900;
+  }
+
+  /* ===== 中台产品赋能 ===== */
+  .product-section {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+    border: 1px solid #e8eef5;
+    margin-bottom: 16px;
+  }
+  .product-section .ps-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #2d8e5e;
+  }
+  .product-section .ps-header h3 {
+    font-size: 15px;
+    font-weight: 700;
+    color: #2d8e5e;
+  }
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+  .prod-card {
+    background: #f5faf7;
+    border-radius: 8px;
+    padding: 14px;
+    text-align: center;
+    border: 1px solid #d6ede2;
+  }
+  .prod-card .pc-icon {
+    font-size: 24px;
+    margin-bottom: 6px;
+  }
+  .prod-card .pc-name {
+    font-size: 12px;
+    font-weight: 700;
+    color: #2d8e5e;
+    margin-bottom: 4px;
+  }
+  .prod-card .pc-desc {
+    font-size: 10px;
+    color: #555;
+    line-height: 1.5;
+  }
+  .prod-card .pc-value {
+    font-size: 14px;
+    font-weight: 900;
+    color: #1a4fa0;
+    margin-top: 4px;
+  }
+
+
+
+  /* ===== BOTTOM BANNER ===== */
+  .bottom-banner {
+    background: linear-gradient(135deg, #1a4fa0 0%, #0f2a4d 100%);
+    padding: 18px 36px;
+    text-align: center;
+    border-radius: 0 0 16px 16px;
+    margin-top: 8px;
+  }
+  .bottom-banner .bb-text {
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 1px;
+  }
+  .bottom-banner .bb-text .gold {
+    color: #e8b86a;
+  }
+  .bottom-banner .bb-sub {
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+    margin-top: 4px;
+  }
+
+  /* ===== 实战截图区域 ===== */
+  .screenshots-section {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+    border: 1px solid #e8eef5;
+    margin-bottom: 16px;
+  }
+  .screenshots-section .ss-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #d4880a;
+  }
+  .screenshots-section .ss-header h3 {
+    font-size: 15px;
+    font-weight: 700;
+    color: #d4880a;
+  }
+  .ss-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    align-items: stretch;
+  }
+  .ss-left {
+    background: #f8fafd;
+    border-radius: 12px;
+    padding: 16px;
+    border: 1px solid #e0e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .ss-left img {
+    max-width: 100%;
+    max-height: 400px;
+    border-radius: 8px;
+  }
+  .ss-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 12px;
+  }
+  .ss-highlight {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    padding: 12px 14px;
+    background: linear-gradient(135deg, #f0f6ff 0%, #fff8f0 100%);
+    border-radius: 8px;
+    border: 1px solid #e0e8f0;
+  }
+  .ss-highlight .ssh-icon {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    background: linear-gradient(135deg, #1a4fa0, #d4880a);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .ss-highlight .ssh-content {
+    flex: 1;
+  }
+  .ss-highlight .ssh-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: #1a4fa0;
+    margin-bottom: 2px;
+  }
+  .ss-highlight .ssh-desc {
+    font-size: 11px;
+    color: #555;
+    line-height: 1.6;
+  }
+  .ss-highlight .ssh-desc strong {
+    color: #d4880a;
+    font-weight: 700;
+  }
+</style>
+</head>
+<body>
+
+<div class="poster">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-left">
+      <div class="brand-logo">认养<br>一头牛</div>
+      <div class="header-title">
+        认养一头牛好友日：微信小店首个好友日，自播+达播双引擎协同实现生意大爆发
+        <span class="sub">活动周期：2026年6月24日 – 6月28日 ｜ 微信小店首个好友日 · 乳制品赛道</span>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="logo-text">腾讯营销</div>
+    </div>
+  </div>
+
+  <!-- METRICS BAR -->
+  <div class="metrics-bar">
+    <div class="metric-card">
+      <div class="mc-label">GMV</div>
+      <div class="mc-value">1700<span class="unit">万+</span></div>
+    </div>
+    <div class="metric-card">
+      <div class="mc-label">首日爆发GMV</div>
+      <div class="mc-value gold">976.88<span class="unit">万</span></div>
+      <div style="font-size:10px;color:#e8a52e;margin-top:2px;font-weight:600;">+1240% vs 5月日销</div>
+    </div>
+    <div class="metric-card">
+      <div class="mc-label">退款率</div>
+      <div class="mc-value">2.7<span class="unit">%</span></div>
+    </div>
+    <div class="metric-card">
+      <div class="mc-label">完成率</div>
+      <div class="mc-value gold">158<span class="unit">%</span></div>
+    </div>
+    <div class="metric-card">
+      <div class="mc-label">自播单场GMV峰值</div>
+      <div class="mc-value">190<span class="unit">w+</span></div>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- 自播 + 达播 双栏 -->
+    <div class="two-col">
+      <!-- 自播板块 -->
+      <div class="section-panel">
+        <div class="panel-header">
+          <div class="ph-icon">自</div>
+          <h3>自播 ｜ 直播间抬升 400%+</h3>
+        </div>
+        <div class="self-live-stats">
+          <div class="sl-stat">
+            <div class="sl-num">¥8,206</div>
+            <div class="sl-label">GPM · 环比前7天 <strong style="color:#d4880a;">2.16 倍</strong></div>
+          </div>
+          <div class="sl-stat">
+            <div class="sl-num">3</div>
+            <div class="sl-label">直播投流 ROI</div>
+          </div>
+        </div>
+        <!-- 关键动作 -->
+        <div class="sub-section-title">
+          一、自播关键动作 <span class="badge">5大打法</span>
+        </div>
+        <!-- 直播画面截图 -->
+        <div class="live-shots">
+          <div class="shot-item">
+            <img src="总裁直播.jpg" alt="总裁进直播间">
+            <div class="shot-caption">总裁进直播间</div>
+          </div>
+          <div class="shot-item">
+            <img src="自播达人进直播.jpg" alt="达人进直播间">
+            <div class="shot-caption">达人进直播间</div>
+          </div>
+          <div class="shot-item">
+            <img src="自播赠品.png" alt="赠品展示">
+            <div class="shot-caption">赠品展示</div>
+          </div>
+          <div class="shot-item">
+            <img src="自播2.png" alt="直播间实景">
+            <div class="shot-caption">直播间实景</div>
+          </div>
+          <div class="shot-item">
+            <img src="爆量素材赠品开头.png" alt="爆量素材·赠品开头">
+            <div class="shot-caption">爆量素材·赠品开头</div>
+          </div>
+        </div>
+        <div class="strategy-list">
+          <div class="strat-item">
+            <div class="s-num">1</div>
+            <div class="s-content">
+              <div class="s-title">总裁/明星进直播间</div>
+              <div class="s-desc"><strong>每日大场配置</strong>，均邀请总裁/明星入镜，区别过往平播模式</div>
+            </div>
+          </div>
+          <div class="strat-item">
+            <div class="s-num">2</div>
+            <div class="s-content">
+              <div class="s-title">主推品策略：牛奶 + 露营小冰柜（赠品）</div>
+              <div class="s-desc">新客转化率跻身<strong>行业top 90%</strong>；赠品目前市场稀缺，叠加保温箱后券价<strong>179元</strong>，毛利显著提升；<strong>靠赠品代替"破价"机制</strong></div>
+            </div>
+          </div>
+          <div class="strat-item">
+            <div class="s-num">3</div>
+            <div class="s-content">
+              <div class="s-title">高价值感赠品 + 沉浸式体验展示</div>
+              <div class="s-desc">应季品 + 使用场景展示 + 强体验感（露营小冰箱<strong>用干冰现场展示保温力</strong>）</div>
+            </div>
+          </div>
+          <div class="strat-item">
+            <div class="s-num">4</div>
+            <div class="s-content">
+              <div class="s-title">10分钟/轮微憋单</div>
+              <div class="s-desc"><strong>每10分钟一轮憋单放福利</strong>，节奏紧凑促转化</div>
+            </div>
+          </div>
+          <div class="strat-item" style="grid-column: span 2;">
+            <div class="s-num">5</div>
+            <div class="s-content">
+              <div class="s-title">直播间布置升级</div>
+              <div class="s-desc"><strong>实景/实图优于绿幕</strong></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 方法论沉淀 -->
+        <div class="sub-section-title">
+          二、自播方法论沉淀 <span class="badge">可复用SOP</span>
+        </div>
+        <div class="method-list">
+          <div class="method-card">
+            <div class="m-title"><span class="m-num">1</span>大场直播间组合拳「投流 + 憋单 + 赠品」</div>
+            <div class="m-desc">好友日自播GPM变化，千次成交达 <strong>¥8,206</strong>，是前7天(¥3,794)的 <strong>2.16倍</strong>。曝光-观看率从16.85%降至12.15%（大盘流量涌入稀释），但<strong>单次观看转化大幅提升</strong>，验证「投流+憋单+赠品」组合拳效率。</div>
+          </div>
+          <div class="method-card">
+            <div class="m-title"><span class="m-num">2</span>爆量素材类型</div>
+            <div class="m-desc"><strong>前3s主讲高价值感赠品机制</strong>，每套主推品货组备 <strong>50 套基础素材</strong>。</div>
+          </div>
+          <div class="method-card">
+            <div class="m-title"><span class="m-num">3</span>前置试播测试</div>
+            <div class="m-desc">提前试播试投，<strong>测脚本 · 测场景 · 测货组 · 测素材</strong>，跑爆款脚本搭账户模型。</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 达播板块 -->
+      <div class="section-panel">
+        <div class="panel-header">
+          <div class="ph-icon" style="background: linear-gradient(135deg, #d4880a, #e8a52e);">达</div>
+          <h3>达播 ｜ 总GMV破千万</h3>
+          <span class="ph-sub">达播矩阵全面爆发 · 5天不间断</span>
+        </div>
+        <div class="da-stats">
+          <div class="da-stat">
+            <div class="da-num">62.7<span class="da-unit">%</span></div>
+            <div class="da-label">达播GMV占比</div>
+          </div>
+          <div class="da-stat">
+            <div class="da-num">500<span class="da-unit">w+</span></div>
+            <div class="da-label">达播单场GMV峰值</div>
+          </div>
+        </div>
+
+        <!-- 达播关键动作 -->
+        <div class="sub-section-title dabo">
+          一、达播关键动作 <span class="badge">头达破局</span>
+        </div>
+        <!-- 达播画面截图 -->
+        <div class="live-shots dabo">
+          <div class="shot-item">
+            <img src="头达合作.jpg" alt="头达合作专场">
+            <div class="shot-caption">头达合作专场</div>
+          </div>
+          <div class="shot-item">
+            <img src="头达合作2.png" alt="头达带货直播间">
+            <div class="shot-caption">头达带货直播间</div>
+          </div>
+        </div>
+        <div class="strategy-list">
+          <div class="strat-item dabo">
+            <div class="s-num">1</div>
+            <div class="s-content">
+              <div class="s-title">储备丰富达人库</div>
+              <div class="s-desc">品牌<strong>自建达人BD团队</strong>，充分储备达人库；前期可采用<strong>跨平台合作模式</strong>，后期为单平台构建独立团队</div>
+            </div>
+          </div>
+          <div class="strat-item dabo">
+            <div class="s-num">2</div>
+            <div class="s-content">
+              <div class="s-title">重点攻破头部达人</div>
+              <div class="s-desc">在重大节点（<strong>年货节 / 中秋 / 大促 / 品牌好友日</strong>等）与头达合作打造标杆案例，<strong>可能牺牲短期利润</strong>换长期资产</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 达播方法论沉淀 -->
+        <div class="sub-section-title dabo">
+          二、达播方法论沉淀 <span class="badge">可复用SOP</span>
+        </div>
+        <div class="method-list">
+          <div class="method-card dabo">
+            <div class="m-title"><span class="m-num">1</span>打标杆效应</div>
+            <div class="m-desc">达人圈层易受头部数据影响，头达合作跑通后，<strong>有机会获得中腰部达人主动带货意向</strong>，节省 BD 成本。</div>
+          </div>
+          <div class="method-card dabo">
+            <div class="m-title"><span class="m-num">2</span>自建达人 BD 团队</div>
+            <div class="m-desc">新渠道布局前期，品牌客户大部分存在<strong>达播养自播</strong>现象，达播/自播占比高达 <strong>7 / 3</strong>；自建 BD 团队是提升达播稳定性的核心抓手。</div>
+          </div>
+        </div>
+
+        <div class="da-matrix">
+          <div class="da-matrix-title">三、达人差异化货盘策略 🌟</div>
+          <div class="da-list">
+            <div class="da-item">
+              <div class="da-rank">1</div>
+              <div class="da-name">馋嘴汇</div>
+              <div class="da-tag">主力卖奶卡</div>
+            </div>
+            <div class="da-item">
+              <div class="da-rank">2</div>
+              <div class="da-name">唐老板</div>
+              <div class="da-tag">中老年奶粉 · 2周年庆溢出</div>
+            </div>
+            <div class="da-item">
+              <div class="da-rank">3</div>
+              <div class="da-name">其他中小达人</div>
+              <div class="da-tag">冰淇淋/99以下品 · 持续复制</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 两大核心成功因素 -->
+    <div class="screenshots-section" style="border: 2px solid #1a4fa0;">
+      <div class="ss-header" style="border-bottom: 2px solid #1a4fa0;">
+        <div class="ph-icon" style="background: linear-gradient(135deg, #1a4fa0, #d4880a);">🏆</div>
+        <h3 style="color: #1a4fa0;">两大核心成功因素</h3>
+      </div>
+      <div class="ss-grid">
+        <!-- 左侧：核心因素1 - 细节把控 -->
+        <div style="background: #f8fafd; border-radius: 12px; padding: 18px; border: 1px solid #d6e4f5;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
+            <span style="background:#1a4fa0;color:#fff;font-size:12px;font-weight:700;padding:3px 12px;border-radius:100px;">核心因素 ①</span>
+            <span style="font-size:15px;font-weight:800;color:#1a4fa0;">极致细节把控：前 · 中 · 后</span>
+          </div>
+          <!-- 前 -->
+          <div style="margin-bottom:12px;">
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
+              <span style="background:linear-gradient(135deg,#1a4fa0,#3d7ed4);color:#fff;font-size:10px;font-weight:700;padding:2px 10px;border-radius:100px;">活动前</span>
+              <span style="font-size:11px;color:#666;">充分试播建立确定性</span>
+            </div>
+            <div style="padding-left:8px;font-size:11px;color:#444;line-height:1.8;">
+              • 试播至少<strong style="color:#d4880a;">5场</strong>，测货组（与其他平台、达播区隔）<br>
+              • 测机制、测素材、脚本话术反复打磨<br>
+              • 调度抖音最好的主播+中控团队<br>
+              • 搭建实景场景（含达人场景）<br>
+              • 准备大场<strong style="color:#d4880a;">Plan B 双播方案</strong>
+            </div>
+          </div>
+          <!-- 中 -->
+          <div style="margin-bottom:12px;">
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
+              <span style="background:linear-gradient(135deg,#d4880a,#e8a52e);color:#fff;font-size:10px;font-weight:700;padding:2px 10px;border-radius:100px;">活动中</span>
+              <span style="font-size:11px;color:#666;">极致节奏管控与转化设计</span>
+            </div>
+            <div style="padding-left:8px;font-size:11px;color:#444;line-height:1.8;">
+              • 每天<strong style="color:#d4880a;">5-6轮</strong>过脚本试讲<br>
+              • 主播话术让用户觉得"赚到了、薅到了"<br>
+              • <strong style="color:#d4880a;">10分钟一个转化周期</strong>，节奏极快<br>
+              • 商品开好价一直弹出 + 憋单配合<br>
+              • 赠品充分展示：三台小冰箱轮番加干冰<br>
+              • 露营车使用场景KT板（买菜/拉快递）
+            </div>
+          </div>
+          <!-- 后 -->
+          <div>
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
+              <span style="background:linear-gradient(135deg,#2d8e5e,#45b07a);color:#fff;font-size:10px;font-weight:700;padding:2px 10px;border-radius:100px;">活动后</span>
+              <span style="font-size:11px;color:#666;">即时复盘动态调优</span>
+            </div>
+            <div style="padding-left:8px;font-size:11px;color:#444;line-height:1.8;">
+              • 及时复盘调整货组策略<br>
+              • 动态调整主播、场控人员<br>
+              • 优化脚本话术，确保次日效率持续提升
+            </div>
+          </div>
+        </div>
+
+        <!-- 右侧：核心因素2 - 机制到位 -->
+        <div style="background: #fffaf2; border-radius: 12px; padding: 18px; border: 1px solid #f0dfc5;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
+            <span style="background:#d4880a;color:#fff;font-size:12px;font-weight:700;padding:3px 12px;border-radius:100px;">核心因素 ②</span>
+            <span style="font-size:15px;font-weight:800;color:#d4880a;">机制到位：已知必爆组合</span>
+          </div>
+
+          <!-- 赠品+货组价格 -->
+          <div style="background:#fff;border-radius:10px;padding:14px 16px;border:1px solid #f0dfc5;margin-bottom:14px;box-shadow:0 2px 6px rgba(212,136,10,0.06);">
+            <div style="font-size:13px;font-weight:700;color:#d4880a;margin-bottom:8px;">💰 必爆组合 = 赠品 + 货组价格</div>
+            <div style="font-size:11px;color:#444;line-height:1.9;">
+              • 夏季首发<strong style="color:#1a4fa0;">露营小冰箱</strong>赠品，市场稀缺<br>
+              • 原价99×3箱 → 叠加保温箱后券价<strong style="color:#d4880a;">179元</strong><br>
+              • 赠品代替"破价"机制，用户感知<strong style="color:#d4880a;">极强</strong><br>
+              • 与抖音/其他平台形成<strong style="color:#1a4fa0;">清晰价格区隔</strong><br>
+              • 毛利显著提升，客户愿意持续投入
+            </div>
+          </div>
+
+          <!-- 头达合作模型 -->
+          <div style="background:#fff;border-radius:10px;padding:14px 16px;border:1px solid #f0dfc5;box-shadow:0 2px 6px rgba(212,136,10,0.06);">
+            <div style="font-size:13px;font-weight:700;color:#d4880a;margin-bottom:8px;">🔥 头达合作 → 中小达涌入模型</div>
+            <div style="font-size:11px;color:#444;line-height:1.9;">
+              • 头部达人<strong style="color:#1a4fa0;">亏本合作</strong>验证模型<br>
+              • 首日爆发数据战报公开<br>
+              • 中小达播看到数据后<strong style="color:#d4880a;">主动涌现追加合作</strong><br>
+              • 达人场景差异化：<br>
+              <span style="padding-left:8px;">馋嘴汇→奶卡 | 唐老板→中老年奶粉</span><br>
+              <span style="padding-left:8px;">其他达人→冰淇淋/99以下品</span><br>
+              • 模式可持续复制，5天不间断接力
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- BOTTOM BANNER -->
+  <div class="bottom-banner">
+    <div class="bb-text">自播+达播双引擎协同，<span class="gold">5天GMV 1700万+</span>，目标达成率<span class="gold">158%</span>，达播单场峰值<span class="gold">500w+</span></div>
+    <div class="bb-sub">认养一头牛 × 腾讯广告 ｜ 微信小店首个好友日 ｜ 2026/06/24-06/28</div>
+  </div>
+
+</div>
+
+</body>
+</html>

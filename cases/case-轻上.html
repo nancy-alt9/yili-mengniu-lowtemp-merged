@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>轻上 · 微信生态开品方法论 · 一页版</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  :root{
+    --navy:#0a1e3f;
+    --navy2:#1e4fa8;
+    --navy3:#2c6cd6;
+    --gold:#f2b544;
+    --gold2:#e09b1c;
+    --gray:#f5f7fa;
+    --gray2:#e8ecf3;
+    --gray3:#adb5c2;
+    --text:#1f2b3e;
+    --text2:#4a5668;
+    --text3:#8894a8;
+    --female:#e85a8a;
+    --male:#3d7fd6;
+    --kid:#f2b544;
+  }
+  html,body{
+    font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
+    background:linear-gradient(135deg,#0a1e3f 0%,#123063 100%);
+    color:var(--text);min-height:100vh;
+  }
+  .page{
+    max-width:1280px;margin:24px auto;background:#fff;border-radius:18px;
+    box-shadow:0 20px 60px rgba(0,0,0,.35);overflow:hidden;
+  }
+
+  /* 顶部标题栏 */
+  .hero{
+    background:linear-gradient(135deg,#0a1e3f 0%,#123063 55%,#1e4fa8 100%);
+    color:#fff;padding:32px 44px 28px;position:relative;overflow:hidden;
+  }
+  .hero::before{
+    content:"";position:absolute;top:-40%;right:-10%;width:520px;height:520px;
+    background:radial-gradient(circle,rgba(242,181,68,.22),transparent 65%);
+  }
+  .hero-tag{
+    display:inline-flex;align-items:center;gap:8px;font-size:12px;
+    letter-spacing:3px;font-weight:600;opacity:.85;margin-bottom:14px;
+  }
+  .hero-tag .dot{width:8px;height:8px;background:var(--gold);border-radius:50%;}
+  .hero h1{font-size:38px;font-weight:800;line-height:1.2;letter-spacing:1px;margin-bottom:8px;}
+  .hero h1 .accent{color:var(--gold);}
+  .hero .sub{font-size:15px;opacity:.85;letter-spacing:1px;font-weight:300;margin-bottom:20px;}
+  .hero .quote{
+    display:inline-block;background:rgba(242,181,68,.14);border:1px solid rgba(242,181,68,.4);
+    padding:10px 18px;border-radius:10px;font-size:13px;line-height:1.6;
+    max-width:820px;position:relative;z-index:2;
+  }
+  .hero .quote b{color:var(--gold);}
+
+  /* KPI 条 */
+  .kpi-bar{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:0;
+    background:var(--navy);
+  }
+  .kpi{
+    padding:22px 20px;color:#fff;text-align:center;
+    border-right:1px solid rgba(255,255,255,.08);position:relative;
+  }
+  .kpi:last-child{border-right:none;}
+  .kpi .num{font-size:36px;font-weight:800;color:var(--gold);line-height:1;letter-spacing:.5px;}
+  .kpi .num small{font-size:16px;font-weight:700;margin-left:2px;}
+  .kpi .label{font-size:12px;opacity:.75;margin-top:8px;letter-spacing:2px;font-weight:600;}
+  .kpi .desc{font-size:11px;opacity:.55;margin-top:4px;letter-spacing:.5px;}
+
+  /* 内容主体 */
+  .body{padding:32px 44px 36px;}
+
+  .section-title{
+    display:flex;align-items:center;gap:12px;
+    font-size:18px;font-weight:800;color:var(--navy);
+    margin-bottom:18px;letter-spacing:.5px;
+  }
+  .section-title::before{
+    content:"";width:4px;height:20px;background:linear-gradient(180deg,var(--navy2),var(--gold));border-radius:2px;
+  }
+  .section-title .en{font-size:11px;color:var(--text3);letter-spacing:2px;font-weight:600;margin-left:6px;}
+
+  /* 三大打法 */
+  .plays{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:28px;
+  }
+  .play{
+    background:linear-gradient(180deg,#fff,#f7f9fd);
+    border:1.5px solid var(--gray2);border-radius:14px;
+    padding:22px 22px 20px;position:relative;overflow:hidden;
+    display:flex;flex-direction:column;
+  }
+  .play::before{
+    content:"";position:absolute;top:0;left:0;height:4px;width:100%;
+    background:linear-gradient(90deg,var(--navy2),var(--navy3));
+  }
+  .play .idx{
+    position:absolute;top:14px;right:20px;
+    font-size:44px;font-weight:800;color:var(--navy2);opacity:.12;line-height:1;
+  }
+  .play h3{font-size:17px;font-weight:800;color:var(--navy);margin-bottom:6px;}
+  .play .lead{font-size:12px;color:var(--text3);margin-bottom:14px;letter-spacing:.5px;}
+  .play .body-txt{font-size:13px;color:var(--text2);line-height:1.75;flex:1;}
+  .play .highlight{
+    display:inline-block;background:var(--navy);color:#fff;
+    font-size:11px;font-weight:700;padding:3px 9px;border-radius:6px;letter-spacing:.5px;
+  }
+  .play .highlight.gold{background:var(--gold);color:var(--navy);}
+
+  /* 人群圈层 */
+  .aud{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px;}
+  .aud-item{
+    background:#fff;border:1px solid var(--gray2);border-radius:8px;
+    padding:8px 10px;text-align:center;
+  }
+  .aud-item.f{border-color:#f5c8d6;background:#fff5f8;}
+  .aud-item.m{border-color:#c7dcf5;background:#f2f8ff;}
+  .aud-item.k{border-color:#f5deb3;background:#fff9ec;}
+  .aud-item .emoji{font-size:18px;margin-bottom:2px;}
+  .aud-item .n{font-size:11px;color:var(--text2);font-weight:700;}
+  .aud-item .p{font-size:14px;font-weight:800;margin-top:2px;}
+  .aud-item.f .p{color:var(--female);}
+  .aud-item.m .p{color:var(--male);}
+  .aud-item.k .p{color:var(--gold2);}
+
+  /* 矩阵图示 */
+  .matrix-visual{
+    display:flex;align-items:center;justify-content:space-between;
+    background:#fff;border:1px solid var(--gray2);border-radius:8px;
+    padding:10px 12px;margin-top:12px;font-size:11px;color:var(--text2);
+  }
+  .matrix-visual .step{text-align:center;flex:1;}
+  .matrix-visual .step b{display:block;color:var(--navy);font-size:12px;font-weight:800;margin-bottom:2px;}
+  .matrix-visual .arrow{color:var(--gold);font-weight:800;padding:0 6px;}
+
+  /* AI 三件套 */
+  .ai-row{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:12px;
+  }
+  .ai-chip{
+    background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;
+    padding:8px 6px;border-radius:8px;text-align:center;
+  }
+  .ai-chip .t{font-size:10px;opacity:.75;letter-spacing:1px;}
+  .ai-chip .v{font-size:13px;font-weight:800;color:var(--gold);margin-top:2px;}
+
+  /* 公式带 */
+  .formula{
+    background:linear-gradient(90deg,#fff9e6,#fff3d0,#fff9e6);
+    border-left:4px solid var(--gold);border-right:4px solid var(--gold);
+    border-radius:10px;padding:18px 24px;margin-bottom:28px;
+    display:flex;align-items:center;gap:20px;
+  }
+  .formula .label{
+    background:var(--navy);color:var(--gold);
+    font-size:12px;font-weight:800;letter-spacing:2px;
+    padding:6px 12px;border-radius:6px;flex-shrink:0;
+  }
+  .formula .expr{
+    font-size:16px;font-weight:800;color:var(--navy);
+    letter-spacing:1px;line-height:1.6;
+  }
+  .formula .expr .op{color:var(--gold2);margin:0 6px;font-size:18px;}
+  .formula .expr .brace{color:var(--text3);}
+
+  /* 老板弹药 */
+  .bosses{
+    display:grid;grid-template-columns:1fr 1fr;gap:18px;
+  }
+  .boss{
+    padding:20px 24px;border-radius:12px;position:relative;
+    display:flex;gap:16px;align-items:flex-start;
+  }
+  .boss.ec{background:linear-gradient(135deg,#f0f5ff,#e8efff);border:1.5px solid #c7d6f5;}
+  .boss.md{background:linear-gradient(135deg,#fff9e6,#fff3d0);border:1.5px solid #f2d78a;}
+  .boss .icon{
+    width:48px;height:48px;border-radius:12px;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+    font-size:24px;color:#fff;font-weight:800;
+  }
+  .boss.ec .icon{background:linear-gradient(135deg,var(--navy2),var(--navy3));}
+  .boss.md .icon{background:linear-gradient(135deg,var(--gold),var(--gold2));}
+  .boss .role{font-size:11px;color:var(--text3);letter-spacing:2px;font-weight:700;margin-bottom:4px;}
+  .boss h4{font-size:15px;font-weight:800;color:var(--navy);margin-bottom:8px;}
+  .boss p{font-size:13px;color:var(--text2);line-height:1.7;}
+  .boss p b{color:var(--navy);}
+
+  /* 运营品 how-to 三步流 */
+  .ops-flow{
+    display:grid;grid-template-columns:1fr 28px 1fr 28px 1fr;gap:14px;align-items:stretch;
+  }
+  .ops-step{
+    background:linear-gradient(160deg,#fafcff,#f2f6ff);
+    border:1.5px solid #d8e2f5;border-radius:14px;
+    padding:18px 20px 16px;position:relative;
+    display:flex;flex-direction:column;
+  }
+  .ops-step.step3{
+    background:linear-gradient(160deg,#fffaee,#fff4d8);
+    border-color:#f2d78a;
+  }
+  .ops-head{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+  .ops-no{
+    font-family:'JetBrains Mono','SF Mono',monospace;
+    font-size:20px;font-weight:800;color:var(--navy2);
+    background:#fff;border:1.5px solid var(--navy3);
+    width:34px;height:34px;border-radius:10px;
+    display:flex;align-items:center;justify-content:center;
+    letter-spacing:0;flex-shrink:0;
+  }
+  .ops-step.step3 .ops-no{color:var(--gold2);border-color:var(--gold);}
+  .ops-title{
+    font-size:14px;font-weight:800;color:var(--navy);line-height:1.35;
+  }
+  .ops-lead{
+    font-size:12.5px;color:var(--text2);line-height:1.7;
+    padding:10px 12px;background:rgba(255,255,255,.7);
+    border-left:3px solid var(--navy3);border-radius:6px;margin-bottom:10px;
+  }
+  .ops-step.step3 .ops-lead{border-left-color:var(--gold);}
+  .ops-lead b{color:var(--navy);}
+  .ops-list{
+    list-style:none;padding:0;margin:0;font-size:12px;color:var(--text2);
+    display:flex;flex-direction:column;gap:6px;
+  }
+  .ops-list li{
+    position:relative;padding-left:14px;line-height:1.6;
+  }
+  .ops-list li::before{
+    content:"";position:absolute;left:0;top:8px;
+    width:6px;height:6px;border-radius:2px;background:var(--navy3);
+  }
+  .ops-step.step3 .ops-list li::before{background:var(--gold);}
+  .ops-list b{color:var(--navy);font-weight:700;}
+  .ops-arrow{
+    display:flex;align-items:center;justify-content:center;
+    font-size:22px;color:var(--navy3);font-weight:800;
+    user-select:none;
+  }
+
+  /* 爆品陈列条 */
+  .hits{margin-top:22px;}
+  .hits-title{
+    display:flex;align-items:center;gap:12px;margin-bottom:12px;
+    font-size:14px;font-weight:800;color:var(--navy);
+  }
+  .hits-tag{
+    display:inline-block;background:linear-gradient(135deg,var(--gold),var(--gold2));
+    color:#fff;font-size:10px;letter-spacing:2px;font-weight:800;
+    padding:4px 10px;border-radius:6px;
+  }
+  .hits-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:12px;
+  }
+  .hit-card{
+    background:#fafcff;border:1.5px solid #d8e2f5;border-radius:12px;
+    padding:10px 10px 12px;display:flex;flex-direction:column;align-items:center;
+    transition:transform .2s,box-shadow .2s;
+  }
+  .hit-card:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(15,23,42,.08);}
+  .hit-card img{
+    width:100%;height:130px;object-fit:contain;border-radius:8px;
+    background:#fff;margin-bottom:8px;
+  }
+  .hit-name{
+    font-size:12px;font-weight:800;color:var(--navy);text-align:center;
+    line-height:1.4;margin-bottom:4px;
+  }
+  .hit-tag{
+    font-size:10.5px;color:var(--text3);text-align:center;
+    letter-spacing:.5px;line-height:1.4;
+  }
+
+  /* 底部 */
+  .footer{
+    background:var(--gray);padding:14px 44px;
+    display:flex;justify-content:center;align-items:center;
+    font-size:11px;color:var(--text3);letter-spacing:1px;border-top:1px solid var(--gray2);
+  }
+  .footer .brand{font-weight:700;color:var(--navy);letter-spacing:2px;}
+  .footer .brand b{color:var(--gold2);}
+
+  @media print{
+    html,body{background:#fff;}
+    .page{margin:0;box-shadow:none;border-radius:0;max-width:100%;}
+    .edit-toolbar,.edit-hint{display:none !important;}
+  }
+
+  /* ============ 编辑模式 ============ */
+  .edit-toolbar{
+    position:fixed;top:16px;right:16px;z-index:999;
+    background:rgba(10,30,63,.92);color:#fff;
+    padding:10px 14px;border-radius:10px;
+    font-size:12px;letter-spacing:.5px;line-height:1.6;
+    box-shadow:0 8px 24px rgba(0,0,0,.3);backdrop-filter:blur(8px);
+    max-width:260px;
+  }
+  .edit-toolbar b{color:var(--gold);}
+  .edit-toolbar .status{display:inline-block;padding:2px 8px;border-radius:6px;font-weight:700;margin-left:4px;}
+  .edit-toolbar .status.off{background:#3a4a68;color:#c8d1e0;}
+  .edit-toolbar .status.on{background:var(--gold);color:var(--navy);}
+  .edit-toolbar kbd{
+    background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);
+    border-radius:4px;padding:1px 6px;font-family:inherit;font-size:11px;
+    font-weight:700;color:var(--gold);
+  }
+  .edit-toolbar .hint-line{margin-top:6px;opacity:.85;}
+
+  /* 编辑模式下，所有可编辑元素的样式 */
+  body.editing [data-editable]{
+    outline:1.5px dashed rgba(242,181,68,.55);
+    outline-offset:2px;
+    cursor:text;
+    transition:outline-color .15s,background .15s;
+    border-radius:3px;
+  }
+  body.editing [data-editable]:hover{
+    outline:1.5px dashed var(--gold);
+    background:rgba(242,181,68,.08);
+  }
+  body.editing [data-editable]:focus{
+    outline:2px solid var(--gold);
+    background:rgba(242,181,68,.12);
+    box-shadow:0 0 0 3px rgba(242,181,68,.2);
+  }
+  /* 深色区域（hero / kpi-bar / footer 里的深色元素）下的编辑虚线用亮色 */
+  body.editing .hero [data-editable],
+  body.editing .kpi-bar [data-editable],
+  body.editing .ai-chip [data-editable]{
+    outline-color:rgba(242,181,68,.6);
+  }
+
+  /* 保存提示 */
+  .toast{
+    position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
+    background:var(--navy);color:#fff;padding:12px 24px;border-radius:8px;
+    font-size:13px;letter-spacing:.5px;
+    box-shadow:0 8px 24px rgba(0,0,0,.35);
+    z-index:1000;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(-4px);}
+  .toast b{color:var(--gold);}
+</style>
+</head>
+<body class="">
+
+<!-- 编辑模式工具条 -->
+
+
+<!-- 保存提示 -->
+
+
+<div class="page">
+
+  <!-- 顶部标题栏 -->
+  <div class="hero">
+    <div class="hero-tag"><span class="dot"></span><span data-editable="">CASE · 商品力 · 开品方法论</span></div>
+    <h1><span data-editable="">轻上 · 微信生态</span><span class="accent" data-editable="">开品方法论</span></h1>
+    <div class="sub" data-editable="">先切人群，再定产品 —— 让更多品牌，能持续跑出爆款</div>
+    <div class="quote" data-editable="">
+      🎯 把线下渠道<b>高成本</b>的新品试错，压缩成微信生态里<font color="#f2b544"><b>低成本测试</b></font>；
+      用 <b>丰富品线 × 细分人群 × 矩阵化测试</b>，让 AI 帮你选品、选人、选素材。
+    </div>
+  </div>
+
+  <!-- KPI 条 -->
+  <div class="kpi-bar">
+    <div class="kpi">
+      <div class="num"><span data-editable="">20</span><small data-editable="">w+</small></div>
+      <div class="label" data-editable="">单店日耗</div>
+      <div class="desc" data-editable="">已达中大品牌头部水位</div>
+    </div>
+    <div class="kpi">
+      <div class="num"><span data-editable="">2.1</span><small data-editable="">+</small></div>
+      <div class="label" data-editable="">ROI</div>
+      <div class="desc" data-editable="">投 1 块回 2.1 块</div>
+    </div>
+    <div class="kpi">
+      <div class="num" data-editable="">60+</div>
+      <div class="label" data-editable="">在线 SPU</div>
+      <div class="desc" data-editable="">规模化开品能力</div>
+    </div>
+    <div class="kpi">
+      <div class="num"><span data-editable="">+580</span><small data-editable="">%</small></div>
+      <div class="label" data-editable="">日耗环比</div>
+      <div class="desc" data-editable="">从试水到起量一个周期</div>
+    </div>
+  </div>
+
+  <div class="body">
+
+    <!-- 三大打法 -->
+    <div class="section-title">
+      <span data-editable="">三大打法 · 客户可抄的作业</span>
+      <span class="en" data-editable="">/ THREE PLAYS</span>
+    </div>
+
+    <div class="plays">
+      <!-- 打法 1 -->
+      <div class="play">
+        <div class="idx">01</div>
+        <h3 data-editable="">精准人群定位开品</h3>
+        <div class="lead" data-editable="">先切人群，再定产品</div>
+        <div class="body-txt" data-editable="">
+          每个 SKU 从设计之初就<span class="highlight">锁定一个圈层</span>，投放时精准锚定人群制作素材与定向设置。
+        </div>
+        <div class="aud">
+          <div class="aud-item f">
+            <div class="emoji">👩</div>
+            <div class="n" data-editable="">女性·关注身材</div>
+            <div class="p"><span data-editable="">85%</span><small style="font-size:9px" data-editable="">+</small></div>
+          </div>
+          <div class="aud-item m">
+            <div class="emoji">🧒</div>
+            <div class="n" data-editable="">儿童·关注营养</div>
+            <div class="p" data-editable="">破圈</div>
+          </div>
+          <div class="aud-item k">
+            <div class="emoji">🧓</div>
+            <div class="n" data-editable="">中老年·关注养生</div>
+            <div class="p"><span data-editable="">75%</span><small style="font-size:9px" data-editable="">+</small></div>
+          </div>
+        </div>
+        <div style="font-size:11px;color:var(--text3);margin-top:10px;line-height:1.6;" data-editable="">女性：羽衣甘蓝牛油果酸奶奶昔 / 羽衣甘蓝青苹果水 / 羽衣甘蓝芭乐柠檬水 / 西梅奇亚籽奶昔&nbsp;<br>宝妈（破圈）：山药苹果四神汤/ DHA小奶等<br><div><span style="color: var(--text3); font-family: -apple-system, BlinkMacSystemFont, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;">中老年：</span>黑芝麻饮 / 枸杞汁</div></div>
+      </div>
+
+      <!-- 打法 2 -->
+      <div class="play">
+        <div class="idx">02</div>
+        <h3 data-editable="">多号多店矩阵运营</h3>
+        <div class="lead" data-editable="">超10+个视频号&amp;店铺并投 · 快速验证</div>
+        <div class="body-txt" data-editable="">不同号/店测不同人群与产品卖点，<div><span class="highlight gold">70% 增量来自新号新品</span>。
+        </div></div>
+        <div class="matrix-visual">
+          <div class="step" data-editable=""><b>上架</b>多号多店</div>
+          <div class="arrow">→</div>
+          <div class="step" data-editable=""><b>短频快测试</b>复盘</div>
+          <div class="arrow">→</div>
+          <div class="step" data-editable=""><b>快扩<br>快撤</b></div>
+        </div>
+        <div style="font-size:11.5px;color:var(--text2);margin-top:12px;line-height:1.7;padding:10px 12px;background:#f7f9fd;border-radius:8px;border-left:3px solid var(--gold);" data-editable="">
+          <b style="color:var(--navy);">试错成本 → 1/20</b><br>
+          传统：铺货 × 观察 × 撤柜（3-6个月）<br>
+          轻上：多号测品 × 快扩快撤（2-3周）</div>
+      </div>
+
+      <!-- 打法 3 -->
+      <div class="play">
+        <div class="idx">03</div>
+        <h3 data-editable="">AI 智投放大提效</h3>
+        <div class="lead" data-editable="">3 个 AI 决定放量效率</div>
+        <div class="body-txt" data-editable="">
+          <span class="highlight">小店广告 + 智投占比 93.2%</span> —— 降低投放门槛<div>全店托管</div></div>
+        <div class="ai-row">
+          <div class="ai-chip">
+            <div class="t" data-editable="">AI 选</div>
+            <div class="v" data-editable="">品</div>
+          </div>
+          <div class="ai-chip">
+            <div class="t" data-editable="">AI 选</div>
+            <div class="v" data-editable="">人</div>
+          </div>
+          <div class="ai-chip">
+            <div class="t" data-editable="">AI 选</div>
+            <div class="v" data-editable="">素材</div>
+          </div>
+        </div>
+        <div style="font-size:11.5px;color:var(--text2);margin-top:12px;line-height:1.7;padding:10px 12px;background:#f7f9fd;border-radius:8px;border-left:3px solid var(--navy2);" data-editable="">
+          <b style="color:var(--navy);">单店产出</b><br>
+          日均消耗 <b style="color:var(--gold2);">20w+</b><br>
+          月度 GMV 超&nbsp;<b style="color:var(--gold2);">2000w</b>
+        </div>
+      </div>
+    </div>
+
+    <!-- 公式 -->
+    <div class="formula">
+      <div class="label" data-editable="">开品公式</div>
+      <div class="expr" data-editable="">
+        <span class="brace">(</span> 丰富品线 <span class="op">×</span> 细分人群 <span class="op">×</span> 矩阵化测试 <span class="brace">)</span>
+        <span class="op">×</span>
+        <span class="brace">(</span> AI 选品 <span class="op">+</span> AI 选人 <span class="op">+</span> AI 选素材 <span class="brace">)</span>
+      </div>
+    </div>
+
+    <!-- 三步启示 -->
+    <div class="section-title">
+      <span data-editable="">三步启示：定人群 → 选商品 → 运营品</span>
+      <span class="en" data-editable="">重点讲第三步 · 智能托管时代，商详页 = AIGC 的原料</span>
+    </div>
+
+    <!-- 运营品 how-to：托管前先做好商详页 → AIGC 衍生 4 版位 → 1 份投入 1.5 份回报 -->
+    <div class="ops-flow">
+      <div class="ops-step step1">
+        <div class="ops-head">
+          <span class="ops-no">01</span>
+          <div class="ops-title" data-editable="">先做好商详，再谈智能托管</div>
+        </div>
+        <p class="ops-lead" data-editable="">
+          商详页质量 = <b>AIGC 素材上限</b>。托管系统只能"衍生"，衍生不出你没给的东西。
+        </p>
+        <ul class="ops-list">
+          <li data-editable=""><b>头图</b>：实拍+精修，主视觉锁色系（禁纯文案/糊图）</li>
+          <li data-editable=""><b>详情图</b>：一图一焦点，卖点单独成图</li>
+          <li data-editable=""><b>图集顺序</b>：定调图 → 支撑图 → 场景图，成"讲故事"结构</li>
+          <li data-editable=""><b>Bad Case</b>：图糊 / 纯文案 / 缺主视觉 / 无色系 → AIGC 无原料</li>
+        </ul>
+      </div>
+
+      <div class="ops-arrow">→</div>
+
+      <div class="ops-step step2">
+        <div class="ops-head">
+          <span class="ops-no">02</span>
+          <div class="ops-title" data-editable="">AIGC 3.0 / Max 自动衍生 4 大版位</div>
+        </div>
+        <p class="ops-lead" data-editable="">
+          系统读商详的视觉+卖点，一键铺满生态触点，<b>投手不用逐条搭素材</b>。
+        </p>
+        <ul class="ops-list">
+          <li data-editable=""><b>视频号信息流</b> · 竖版短视频衍生</li>
+          <li data-editable=""><b>小程序封面</b> · 主视觉+卖点标题</li>
+          <li data-editable=""><b>插屏</b> · 强化色系+促销钩子</li>
+          <li data-editable=""><b>朋友圈九图</b> · 图集顺序自动重组</li>
+        </ul>
+      </div>
+
+      <div class="ops-arrow">→</div>
+
+      <div class="ops-step step3">
+        <div class="ops-head">
+          <span class="ops-no">03</span>
+          <div class="ops-title" data-editable="">1 份投入 = 1.5 份回报</div>
+        </div>
+        <p class="ops-lead" data-editable="">
+          商详投入一次，AIGC 反复复用；智投接管放量，运营从"搭素材"转向"看数据+补物料"。
+        </p>
+        <ul class="ops-list">
+          <li data-editable="">素材复用率 <b>3~5×</b>，人力投入下降</li>
+          <li data-editable="">全店托管 + 智投占比 <b>93.2%</b>，单店日耗 <b>20w+</b></li>
+          <li data-editable="">投手工作重心：从"做素材" → "调商详 + 盯 ROI"</li>
+          <li data-editable="">运营节奏：<b>每周补 1 组高质量商详物料</b>喂养系统</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 爆品陈列条 -->
+    <div class="hits">
+      <div class="hits-title">
+        <span class="hits-tag">HIT PRODUCTS</span>
+        <span data-editable="">轻上跑出来的爆品 · 商详驱动</span>
+      </div>
+      <div class="hits-grid">
+        <div class="hit-card">
+          <img src="products/p1-sishentang.png" alt="山药苹果四神汤">
+          <div class="hit-name" data-editable="">轻上牛牛 · 山药苹果四神汤</div>
+          <div class="hit-tag" data-editable="">古法升级 · 儿童营养</div>
+        </div>
+        <div class="hit-card">
+          <img src="products/p2-vitaminB.png" alt="维B羽衣甘蓝青苹果水">
+          <div class="hit-name" data-editable="">自律零 · 维 B 羽衣甘蓝青苹果水</div>
+          <div class="hit-tag" data-editable="">维B · 女性轻负担</div>
+        </div>
+        <div class="hit-card">
+          <img src="products/p3-vc1000.png" alt="VC1000柠檬水">
+          <div class="hit-name" data-editable="">轻上轻颜 · VC1000 柠檬水</div>
+          <div class="hit-tag" data-editable="">烟酰胺+胶原肽 · 女性美白</div>
+        </div>
+        <div class="hit-card">
+          <img src="products/p4-qiyazi.png" alt="简零控奇亚籽奶昔">
+          <div class="hit-name" data-editable="">简零控 · 牛油果奇亚籽奶昔</div>
+          <div class="hit-tag" data-editable="">膳食纤维 · 轻食代餐</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 底部 -->
+  <div class="footer">
+    <div class="brand" data-editable="">CASE · <b>轻上</b> · 微信生态开品方法论 · 一页速览版</div>
+  </div>
+
+</div>
+
+
+
+
+
+
+</body></html>

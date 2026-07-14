@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>妙可蓝多 · 微信生态开品案例 · 一页版</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  :root{
+    --navy:#0a1e3f;
+    --navy2:#1e4fa8;
+    --navy3:#2c6cd6;
+    --gold:#f2b544;
+    --gold2:#e09b1c;
+    --gray:#f5f7fa;
+    --gray2:#e8ecf3;
+    --gray3:#adb5c2;
+    --text:#1f2b3e;
+    --text2:#4a5668;
+    --text3:#8894a8;
+    --female:#e85a8a;
+    --male:#3d7fd6;
+    --kid:#f2b544;
+  }
+  html,body{
+    font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
+    background:linear-gradient(135deg,#0a1e3f 0%,#123063 100%);
+    color:var(--text);min-height:100vh;
+  }
+  .page{
+    max-width:1280px;margin:24px auto;background:#fff;border-radius:18px;
+    box-shadow:0 20px 60px rgba(0,0,0,.35);overflow:hidden;
+  }
+
+  /* 顶部标题栏 */
+  .hero{
+    background:linear-gradient(135deg,#0a1e3f 0%,#123063 55%,#1e4fa8 100%);
+    color:#fff;padding:32px 44px 28px;position:relative;overflow:hidden;
+  }
+  .hero::before{
+    content:"";position:absolute;top:-40%;right:-10%;width:520px;height:520px;
+    background:radial-gradient(circle,rgba(242,181,68,.22),transparent 65%);
+  }
+  .hero-product{
+    position:absolute;top:24px;right:32px;width:200px;height:200px;
+    object-fit:cover;border-radius:14px;
+    box-shadow:0 8px 24px rgba(0,0,0,.25);
+    border:3px solid rgba(255,255,255,.85);
+    z-index:2;
+  }
+  .hero-tag{
+    display:inline-flex;align-items:center;gap:8px;font-size:12px;
+    letter-spacing:3px;font-weight:600;opacity:.85;margin-bottom:14px;
+  }
+  .hero-tag .dot{width:8px;height:8px;background:var(--gold);border-radius:50%;}
+  .hero h1{font-size:38px;font-weight:800;line-height:1.2;letter-spacing:1px;margin-bottom:8px;}
+  .hero h1 .accent{color:var(--gold);}
+  .hero .sub{font-size:15px;opacity:.85;letter-spacing:1px;font-weight:300;margin-bottom:20px;}
+  .hero .quote{
+    display:inline-block;background:rgba(242,181,68,.14);border:1px solid rgba(242,181,68,.4);
+    padding:10px 18px;border-radius:10px;font-size:13px;line-height:1.6;
+    max-width:820px;position:relative;z-index:2;
+  }
+  .hero .quote b{color:var(--gold);}
+
+  /* KPI 条 */
+  .kpi-bar{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:0;
+    background:var(--navy);
+  }
+  .kpi{
+    padding:22px 20px;color:#fff;text-align:center;
+    border-right:1px solid rgba(255,255,255,.08);position:relative;
+  }
+  .kpi:last-child{border-right:none;}
+  .kpi .num{font-size:36px;font-weight:800;color:var(--gold);line-height:1;letter-spacing:.5px;}
+  .kpi .num small{font-size:16px;font-weight:700;margin-left:2px;}
+  .kpi .label{font-size:12px;opacity:.75;margin-top:8px;letter-spacing:2px;font-weight:600;}
+  .kpi .desc{font-size:11px;opacity:.55;margin-top:4px;letter-spacing:.5px;}
+
+  /* 内容主体 */
+  .body{padding:32px 44px 36px;}
+
+  .section-title{
+    display:flex;align-items:center;gap:12px;
+    font-size:18px;font-weight:800;color:var(--navy);
+    margin-bottom:18px;letter-spacing:.5px;
+  }
+  .section-title::before{
+    content:"";width:4px;height:20px;background:linear-gradient(180deg,var(--navy2),var(--gold));border-radius:2px;
+  }
+  .section-title .en{font-size:11px;color:var(--text3);letter-spacing:2px;font-weight:600;margin-left:6px;}
+
+  /* 三大打法 */
+  .plays{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:28px;
+  }
+  .play{
+    background:linear-gradient(180deg,#fff,#f7f9fd);
+    border:1.5px solid var(--gray2);border-radius:14px;
+    padding:22px 22px 20px;position:relative;overflow:hidden;
+    display:flex;flex-direction:column;
+  }
+  .play::before{
+    content:"";position:absolute;top:0;left:0;height:4px;width:100%;
+    background:linear-gradient(90deg,var(--navy2),var(--navy3));
+  }
+  .play .idx{
+    position:absolute;top:14px;right:20px;
+    font-size:44px;font-weight:800;color:var(--navy2);opacity:.12;line-height:1;
+  }
+  .play h3{font-size:17px;font-weight:800;color:var(--navy);margin-bottom:6px;}
+  .play .lead{font-size:12px;color:var(--text3);margin-bottom:14px;letter-spacing:.5px;}
+  .play .body-txt{font-size:13px;color:var(--text2);line-height:1.75;flex:1;}
+  .play .highlight{
+    display:inline-block;background:var(--navy);color:#fff;
+    font-size:11px;font-weight:700;padding:3px 9px;border-radius:6px;letter-spacing:.5px;
+  }
+  .play .highlight.gold{background:var(--gold);color:var(--navy);}
+
+  /* 人群圈层 */
+  .aud{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px;}
+  .aud-item{
+    background:#fff;border:1px solid var(--gray2);border-radius:8px;
+    padding:8px 10px;text-align:center;
+  }
+  .aud-item.f{border-color:#f5c8d6;background:#fff5f8;}
+  .aud-item.m{border-color:#c7dcf5;background:#f2f8ff;}
+  .aud-item.k{border-color:#f5deb3;background:#fff9ec;}
+  .aud-item .emoji{font-size:18px;margin-bottom:2px;}
+  .aud-item .n{font-size:11px;color:var(--text2);font-weight:700;}
+  .aud-item .p{font-size:14px;font-weight:800;margin-top:2px;}
+  .aud-item.f .p{color:var(--female);}
+  .aud-item.m .p{color:var(--male);}
+  .aud-item.k .p{color:var(--gold2);}
+
+  /* 矩阵图示 */
+  .matrix-visual{
+    display:flex;align-items:center;justify-content:space-between;
+    background:#fff;border:1px solid var(--gray2);border-radius:8px;
+    padding:10px 12px;margin-top:12px;font-size:11px;color:var(--text2);
+  }
+  .matrix-visual .step{text-align:center;flex:1;}
+  .matrix-visual .step b{display:block;color:var(--navy);font-size:12px;font-weight:800;margin-bottom:2px;}
+  .matrix-visual .arrow{color:var(--gold);font-weight:800;padding:0 6px;}
+
+  /* AI 三件套 */
+  .ai-row{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:12px;
+  }
+  .ai-chip{
+    background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;
+    padding:8px 6px;border-radius:8px;text-align:center;
+  }
+  .ai-chip .t{font-size:10px;opacity:.75;letter-spacing:1px;}
+  .ai-chip .v{font-size:13px;font-weight:800;color:var(--gold);margin-top:2px;}
+
+  /* 公式带 */
+  .formula{
+    background:linear-gradient(90deg,#fff9e6,#fff3d0,#fff9e6);
+    border-left:4px solid var(--gold);border-right:4px solid var(--gold);
+    border-radius:10px;padding:18px 24px;margin-bottom:28px;
+    display:flex;align-items:center;gap:20px;
+  }
+  .formula .label{
+    background:var(--navy);color:var(--gold);
+    font-size:12px;font-weight:800;letter-spacing:2px;
+    padding:6px 12px;border-radius:6px;flex-shrink:0;
+  }
+  .formula .expr{
+    font-size:16px;font-weight:800;color:var(--navy);
+    letter-spacing:1px;line-height:1.6;
+  }
+  .formula .expr .op{color:var(--gold2);margin:0 6px;font-size:18px;}
+  .formula .expr .brace{color:var(--text3);}
+
+  /* 老板弹药 */
+  .bosses{
+    display:grid;grid-template-columns:1fr 1fr;gap:18px;
+  }
+  .boss{
+    padding:20px 24px;border-radius:12px;position:relative;
+    display:flex;gap:16px;align-items:flex-start;
+  }
+  .boss.ec{background:linear-gradient(135deg,#f0f5ff,#e8efff);border:1.5px solid #c7d6f5;}
+  .boss.md{background:linear-gradient(135deg,#fff9e6,#fff3d0);border:1.5px solid #f2d78a;}
+  .boss .icon{
+    width:48px;height:48px;border-radius:12px;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+    font-size:24px;color:#fff;font-weight:800;
+  }
+  .boss.ec .icon{background:linear-gradient(135deg,var(--navy2),var(--navy3));}
+  .boss.md .icon{background:linear-gradient(135deg,var(--gold),var(--gold2));}
+  .boss .role{font-size:11px;color:var(--text3);letter-spacing:2px;font-weight:700;margin-bottom:4px;}
+  .boss h4{font-size:15px;font-weight:800;color:var(--navy);margin-bottom:8px;}
+  .boss p{font-size:13px;color:var(--text2);line-height:1.7;}
+  .boss p b{color:var(--navy);}
+
+  /* 运营品 how-to 三步流 */
+  .ops-flow{
+    display:grid;grid-template-columns:1fr 28px 1fr 28px 1fr;gap:14px;align-items:stretch;
+  }
+  .ops-step{
+    background:linear-gradient(160deg,#fafcff,#f2f6ff);
+    border:1.5px solid #d8e2f5;border-radius:14px;
+    padding:18px 20px 16px;position:relative;
+    display:flex;flex-direction:column;
+  }
+  .ops-step.step3{
+    background:linear-gradient(160deg,#fffaee,#fff4d8);
+    border-color:#f2d78a;
+  }
+  .ops-head{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+  .ops-no{
+    font-family:'JetBrains Mono','SF Mono',monospace;
+    font-size:20px;font-weight:800;color:var(--navy2);
+    background:#fff;border:1.5px solid var(--navy3);
+    width:34px;height:34px;border-radius:10px;
+    display:flex;align-items:center;justify-content:center;
+    letter-spacing:0;flex-shrink:0;
+  }
+  .ops-step.step3 .ops-no{color:var(--gold2);border-color:var(--gold);}
+  .ops-title{
+    font-size:14px;font-weight:800;color:var(--navy);line-height:1.35;
+  }
+  .ops-lead{
+    font-size:12.5px;color:var(--text2);line-height:1.7;
+    padding:10px 12px;background:rgba(255,255,255,.7);
+    border-left:3px solid var(--navy3);border-radius:6px;margin-bottom:10px;
+  }
+  .ops-step.step3 .ops-lead{border-left-color:var(--gold);}
+  .ops-lead b{color:var(--navy);}
+  .ops-list{
+    list-style:none;padding:0;margin:0;font-size:12px;color:var(--text2);
+    display:flex;flex-direction:column;gap:6px;
+  }
+  .ops-list li{
+    position:relative;padding-left:14px;line-height:1.6;
+  }
+  .ops-list li::before{
+    content:"";position:absolute;left:0;top:8px;
+    width:6px;height:6px;border-radius:2px;background:var(--navy3);
+  }
+  .ops-step.step3 .ops-list li::before{background:var(--gold);}
+  .ops-list b{color:var(--navy);font-weight:700;}
+  .ops-arrow{
+    display:flex;align-items:center;justify-content:center;
+    font-size:22px;color:var(--navy3);font-weight:800;
+    user-select:none;
+  }
+
+  /* 爆品陈列条 */
+  .hits{margin-top:22px;}
+  .hits-title{
+    display:flex;align-items:center;gap:12px;margin-bottom:12px;
+    font-size:14px;font-weight:800;color:var(--navy);
+  }
+  .hits-tag{
+    display:inline-block;background:linear-gradient(135deg,var(--gold),var(--gold2));
+    color:#fff;font-size:10px;letter-spacing:2px;font-weight:800;
+    padding:4px 10px;border-radius:6px;
+  }
+  .hits-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:12px;
+  }
+  .hit-card{
+    background:#fafcff;border:1.5px solid #d8e2f5;border-radius:12px;
+    padding:10px 10px 12px;display:flex;flex-direction:column;align-items:center;
+    transition:transform .2s,box-shadow .2s;
+  }
+  .hit-card:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(15,23,42,.08);}
+  .hit-card img{
+    width:100%;height:130px;object-fit:contain;border-radius:8px;
+    background:#fff;margin-bottom:8px;
+  }
+  .hit-name{
+    font-size:12px;font-weight:800;color:var(--navy);text-align:center;
+    line-height:1.4;margin-bottom:4px;
+  }
+  .hit-tag{
+    font-size:10.5px;color:var(--text3);text-align:center;
+    letter-spacing:.5px;line-height:1.4;
+  }
+
+  /* 底部 */
+  /* ============ 实战截图（KOC → 自播） ============ */
+  .showcase{margin:24px 32px 8px;}
+  .showcase-title{
+    display:flex;align-items:center;gap:12px;margin-bottom:14px;
+  }
+  .showcase-title .tag{
+    background:var(--navy);color:#fff;font-size:12px;font-weight:700;
+    padding:5px 12px;border-radius:6px;letter-spacing:1px;
+  }
+  .showcase-title .en{color:var(--text3);font-size:11px;letter-spacing:2px;font-weight:600;}
+  .showcase-title .zh{font-size:15px;font-weight:700;color:var(--navy);}
+  .showcase-grid{
+    display:grid;grid-template-columns:1fr auto 1fr;gap:18px;align-items:stretch;
+  }
+  .showcase-col{
+    background:#f7f9fc;border:1px solid #e3e8f0;border-radius:14px;padding:16px;
+    display:flex;flex-direction:column;
+  }
+  .showcase-col.left{border-top:3px solid #4a8ef5;}
+  .showcase-col.right{border-top:3px solid var(--gold);}
+  .showcase-col-title{
+    font-size:13px;font-weight:700;color:var(--navy);margin-bottom:4px;
+    display:flex;align-items:center;gap:8px;
+  }
+  .showcase-col-title .badge{
+    background:var(--navy);color:var(--gold);font-size:10px;font-weight:800;
+    padding:2px 8px;border-radius:4px;letter-spacing:1px;
+  }
+  .showcase-col.right .showcase-col-title .badge{background:var(--gold);color:var(--navy);}
+  .showcase-col-desc{font-size:11px;color:var(--text2);margin-bottom:10px;}
+  .showcase-imgs{
+    display:grid;gap:8px;flex:1;
+  }
+  .showcase-col.left .showcase-imgs{grid-template-columns:repeat(3,1fr);}
+  .showcase-col.right .showcase-imgs{grid-template-columns:repeat(2,1fr);}
+  .showcase-imgs img{
+    width:100%;height:100%;object-fit:cover;border-radius:8px;
+    aspect-ratio:9/16;
+    box-shadow:0 2px 8px rgba(10,30,63,.12);
+    border:1px solid #e3e8f0;
+  }
+  .showcase-arrow{
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    min-width:100px;padding:0 4px;
+  }
+  .showcase-arrow .arrow-label{
+    font-size:11px;font-weight:700;color:var(--navy);text-align:center;
+    background:#fff8e6;border:1px solid #f2b544;border-radius:6px;
+    padding:6px 8px;margin-bottom:8px;line-height:1.4;
+  }
+  .showcase-arrow .arrow-icon{
+    color:var(--gold);font-size:32px;font-weight:900;line-height:1;
+  }
+
+  .footer{
+    background:var(--gray);padding:14px 44px;
+    display:flex;justify-content:center;align-items:center;
+    font-size:11px;color:var(--text3);letter-spacing:1px;border-top:1px solid var(--gray2);
+  }
+  .footer .brand{font-weight:700;color:var(--navy);letter-spacing:2px;}
+  .footer .brand b{color:var(--gold2);}
+
+  @media print{
+    html,body{background:#fff;}
+    .page{margin:0;box-shadow:none;border-radius:0;max-width:100%;}
+    .edit-toolbar,.edit-hint{display:none !important;}
+  }
+
+  /* ============ 编辑模式 ============ */
+  .edit-toolbar{
+    position:fixed;top:16px;right:16px;z-index:999;
+    background:rgba(10,30,63,.92);color:#fff;
+    padding:10px 14px;border-radius:10px;
+    font-size:12px;letter-spacing:.5px;line-height:1.6;
+    box-shadow:0 8px 24px rgba(0,0,0,.3);backdrop-filter:blur(8px);
+    max-width:260px;
+  }
+  .edit-toolbar b{color:var(--gold);}
+  .edit-toolbar .status{display:inline-block;padding:2px 8px;border-radius:6px;font-weight:700;margin-left:4px;}
+  .edit-toolbar .status.off{background:#3a4a68;color:#c8d1e0;}
+  .edit-toolbar .status.on{background:var(--gold);color:var(--navy);}
+  .edit-toolbar kbd{
+    background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);
+    border-radius:4px;padding:1px 6px;font-family:inherit;font-size:11px;
+    font-weight:700;color:var(--gold);
+  }
+  .edit-toolbar .hint-line{margin-top:6px;opacity:.85;}
+
+  /* 编辑模式下，所有可编辑元素的样式 */
+  body.editing [data-editable]{
+    outline:1.5px dashed rgba(242,181,68,.55);
+    outline-offset:2px;
+    cursor:text;
+    transition:outline-color .15s,background .15s;
+    border-radius:3px;
+  }
+  body.editing [data-editable]:hover{
+    outline:1.5px dashed var(--gold);
+    background:rgba(242,181,68,.08);
+  }
+  body.editing [data-editable]:focus{
+    outline:2px solid var(--gold);
+    background:rgba(242,181,68,.12);
+    box-shadow:0 0 0 3px rgba(242,181,68,.2);
+  }
+  /* 深色区域（hero / kpi-bar / footer 里的深色元素）下的编辑虚线用亮色 */
+  body.editing .hero [data-editable],
+  body.editing .kpi-bar [data-editable],
+  body.editing .ai-chip [data-editable]{
+    outline-color:rgba(242,181,68,.6);
+  }
+
+  /* 保存提示 */
+  .toast{
+    position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
+    background:var(--navy);color:#fff;padding:12px 24px;border-radius:8px;
+    font-size:13px;letter-spacing:.5px;
+    box-shadow:0 8px 24px rgba(0,0,0,.35);
+    z-index:1000;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(-4px);}
+  .toast b{color:var(--gold);}
+</style>
+</head>
+<body class="">
+
+<!-- 编辑模式工具条 -->
+
+
+<!-- 保存提示 -->
+
+
+<div class="page">
+
+  <!-- 顶部标题栏 -->
+  <div class="hero">
+    <img src="assets/mkld-jiejiegao-koc.jpg" alt="妙可蓝多捷捷高奶酪小金袋" class="hero-product"/>
+    <div class="hero-tag"><span class="dot"></span><span data-editable="">CASE · 内容力 · KOC 矩阵起量</span></div>
+    <h1><span data-editable="">妙可蓝多 · 微信生态</span><span class="accent" data-editable="">&nbsp;KOC短视频起量赋能自播</span></h1>
+    <div class="sub" data-editable="">达人短视频挂车测出爆款 → 开自播 —— 4个月从0到千万业绩</div>
+    <div class="quote" data-editable="">
+      🧀 用 <b>3000+ KOC 达人矩阵</b>批量测素材，产出 <font color="#f2b544"><b>5000+ 条短视频</b></font>；
+      <b>短视频挂车测出爆款 → 开自播接住流量</b>，ADQ 加热 ROI 比微信豆高 46%。
+    </div>
+  </div>
+
+  <!-- KPI 条 -->
+  <div class="kpi-bar">
+    <div class="kpi">
+      <div class="num" data-editable="">3000+</div>
+      <div class="label" data-editable="">KOC 达人</div>
+      <div class="desc" data-editable="">4 个月快速起量</div>
+    </div>
+    <div class="kpi">
+      <div class="num"><span data-editable="">5000</span><small data-editable="">+</small></div>
+      <div class="label" data-editable="">产出短视频素材</div>
+      <div class="desc" data-editable="">开箱 × 儿童场景为主</div>
+    </div>
+    <div class="kpi">
+      <div class="num" data-editable="">千万级</div>
+      <div class="label" data-editable="">带货 GMV</div>
+      <div class="desc" data-editable="">近月预估 500~700w</div>
+    </div>
+    <div class="kpi">
+      <div class="num"><span data-editable="">+46</span><small data-editable="">%</small></div>
+      <div class="label" data-editable="">ROI 提升</div>
+      <div class="desc" data-editable="">ADQ vs 微信豆</div>
+    </div>
+  </div>
+
+  <div class="body">
+
+    <!-- 三大打法 -->
+    <div class="section-title">
+      <span data-editable="">三大打法&nbsp;</span>
+      <span class="en" data-editable="">/ THREE PLAYS</span>
+    </div>
+
+    <div class="plays">
+      <!-- 打法 1 -->
+      <div class="play">
+        <div class="idx">01</div>
+        <h3 data-editable="">精准锁定<span style="font-family: -apple-system, BlinkMacSystemFont, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;">亲子人群</span></h3>
+        <div class="lead" data-editable="">吃的儿童、决策妈妈·奶奶</div>
+        <div class="body-txt" data-editable="">
+          品类天然锁定<span class="highlight">亲子/宝妈圈层</span>，围绕儿童营养与成长需求做产品与素材。
+        </div>
+        <div class="aud">
+          <div class="aud-item f">
+            <div class="emoji">👶</div>
+            <div class="n" data-editable="">儿童·核心</div>
+            <div class="p" data-editable="">使用者</div>
+          </div>
+          <div class="aud-item m">
+            <div class="emoji">👩</div>
+            <div class="n" data-editable="">妈妈·决策</div>
+            <div class="p" data-editable="">下单者</div>
+          </div>
+          <div class="aud-item k">
+            <div class="emoji">👵</div>
+            <div class="n" data-editable="">奶奶·破圈</div>
+            <div class="p" data-editable="">备货者</div>
+          </div>
+        </div>
+        <div style="font-size:11px;color:var(--text3);margin-top:10px;line-height:1.6;" data-editable="">核心品：捷捷高奶酪（加钙功效） / 汪汪队联名款（IP破圈）<br>破圈品：液体奶酪（中高客单） / 奶酪杯 · 奶酪棒（低客单入门款）<br><div><span style="color: var(--text3);">功效诉求：</span>4 倍天然乳钙 · 双重高蛋白——双重营养力</div></div>
+      </div>
+
+      <!-- 打法 2 -->
+      <div class="play">
+        <div class="idx">02</div>
+        <h3 data-editable="">3000+ KOC 矩阵批量测</h3>
+        <div class="lead" data-editable="">团长机构快速拓达人 · 短视频挂车验证</div>
+        <div class="body-txt" data-editable="">长期批量深耕<span class="highlight">亲子类 KOC</span>，开箱+儿童场景素材为主。爆款素材沉淀复用在自播投放。</div>
+        <div class="matrix-visual">
+          <div class="step" data-editable=""><b>团长机构</b>拓 KOC</div>
+          <div class="arrow">→</div>
+          <div class="step" data-editable=""><b>短视频挂车</b>测品</div>
+          <div class="arrow">→</div>
+          <div class="step" data-editable=""><b>爆款<br>追自播</b></div>
+        </div>
+        <div style="font-size:11.5px;color:var(--text2);margin-top:12px;line-height:1.7;padding:10px 12px;background:#f7f9fd;border-radius:8px;border-left:3px solid var(--gold);" data-editable="">
+          <b style="color:var(--navy);">4 个月产出 5000+ 条素材</b><br>
+          素材类型：开箱 + KOC 儿童实拍 + 妈妈亲测<br>
+          爆款素材反复复用到自播间</div>
+      </div>
+
+      <!-- 打法 3 -->
+      <div class="play">
+        <div class="idx">03</div>
+        <h3 data-editable="">达人素材赋能+ADQ 投放放量</h3>
+        <div class="lead" data-editable="">短视频测出爆款素材 → 投直播承载流量</div>
+        <div class="body-txt" data-editable="">
+          <span class="highlight">ADQ 相比微信豆 ROI 高 46%</span> —— 验证 ADQ 加热效率<div><br></div></div>
+        <div class="ai-row">
+          <div class="ai-chip">
+            <div class="t" data-editable="">短视频</div>
+            <div class="v" data-editable="">种草</div>
+          </div>
+          <div class="ai-chip">
+            <div class="t" data-editable="">自播</div>
+            <div class="v" data-editable="">持续收割</div>
+          </div>
+          <div class="ai-chip">
+            <div class="t" data-editable="">ADQ</div>
+            <div class="v" data-editable="">持续投放</div>
+          </div>
+        </div>
+        <div style="font-size:11.5px;color:var(--text2);margin-top:12px;line-height:1.7;padding:10px 12px;background:#f7f9fd;border-radius:8px;border-left:3px solid var(--navy2);" data-editable="">
+          <b style="color:var(--navy);">双率表现</b><br>
+          CTR <b style="color:var(--gold2);">6%+</b> · CVR <b style="color:var(--gold2);">7.9%+</b><br>
+          自播升单 + 达人短视频集中低客单
+        </div>
+      </div>
+    </div>
+
+    <!-- 公式 -->
+    <div class="formula">
+      <div class="label" data-editable="">起量公式</div>
+      <div class="expr" data-editable="">
+        <span class="brace">(</span> 亲子人群 <span class="op">×</span> 功效大单品 <span class="op">×</span> KOC 矩阵素材 <span class="brace">)</span>
+        <span class="op">×</span>
+        <span class="brace">(</span> 短视频挂车 <span class="op">+</span>&nbsp;自播 <span class="op">+</span> ADQ 投放&nbsp;<span class="brace">)</span>
+      </div>
+    </div>
+
+    <!-- 三步启示 -->
+    <div class="section-title">
+      <span data-editable="">三步链路：短视频种草 → 爆款素材赋能自播 → 短视频/直播双承接</span>
+      <span class="en" data-editable="">先用 KOC 短视频测出爆款，再用自播+货架承接放量</span>
+    </div>
+
+    <!-- 运营品 how-to：托管前先做好商详页 → AIGC 衍生 4 版位 → 1 份投入 1.5 份回报 -->
+    <div class="ops-flow">
+      <div class="ops-step step1">
+        <div class="ops-head">
+          <span class="ops-no">01</span>
+          <div class="ops-title" data-editable="">短视频种草：KOC 矩阵挂车测</div>
+        </div>
+        <p class="ops-lead" data-editable="">
+          用 <b>3000+ KOC 达人</b>批量产出短视频，视频号主页内容推广付费加热，测出高转化爆款素材。
+        </p>
+        <ul class="ops-list">
+          <li data-editable=""><b>素材形式</b>：开箱 + 儿童实拍 + 妈妈亲测</li>
+          <li data-editable=""><b>投放方式</b>：视频号主页推广（内容加热）</li>
+          <li data-editable=""><b>合作时长</b>：4 个月产出 5000+ 条</li>
+          <li data-editable=""><b>双率表现</b>：CTR 6%+ · CVR 7.9%+</li>
+        </ul>
+      </div>
+
+      <div class="ops-arrow">→</div>
+
+      <div class="ops-step step2">
+        <div class="ops-head">
+          <span class="ops-no">02</span>
+          <div class="ops-title" data-editable="">沉淀爆款视频素材：达人素材混剪赋能，投自播</div>
+        </div>
+        <p class="ops-lead" data-editable="">koc爆款素材混剪投自播，<b>大单品直播间转单妈妈/奶奶</b>。
+        </p>
+        <ul class="ops-list">
+          <li data-editable=""><font color="#0a1e3f"><b>KOC赋能直播</b></font>：素材追投自播</li>
+          <li data-editable=""><b>直播素材</b>：魔性前 3 秒停留（促销机制为主）</li>
+          <li data-editable=""><b>混剪套路</b>：开箱 + KOC 儿童素材混剪</li>
+          <li data-editable=""><b>&nbsp;ADQ投放：</b><span style="color: rgb(10, 30, 63); font-weight: 700;">KOC混剪素材&nbsp;</span><b>CTR+45%</b></li>
+        </ul>
+      </div>
+
+      <div class="ops-arrow">→</div>
+
+      <div class="ops-step step3">
+        <div class="ops-head">
+          <span class="ops-no">03</span>
+          <div class="ops-title" data-editable="">多链路分层承接</div>
+        </div>
+        <p class="ops-lead" data-editable=""><b>KOC短视频种草， 小店直购</b>做中小客单，<b style="color: rgb(10, 30, 63);">自播</b>做大单品高客单，形成达人种草+短视频拉新→自播复购的全链路转化矩阵。
+        </p>
+        <ul class="ops-list">
+          <li data-editable=""><b>自播“复购大货组”</b>：捷捷高奶酪 289~479</li>
+          <li data-editable=""><b>短视频“拉新中低客单”</b>： 99~199</li>
+          <li data-editable=""><b>食品垂达“种草”</b>：优质内容低客单持续种草</li>
+          <li data-editable="">6月GMV：千万（迅速爆发提升）</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 实战截图：KOC 短视频 → 自播矩阵号 -->
+    <div class="showcase">
+      <div class="showcase-title">
+        <span class="tag">实战截图</span>
+        <span class="en">KOC × LIVE MATRIX</span>
+        <span class="zh" data-editable="">KOC 短视频素材起量 → 赋能自播矩阵号（赛马）</span>
+      </div>
+      <div class="showcase-grid">
+        <div class="showcase-col left">
+          <div class="showcase-col-title">
+            <span class="badge">KOC</span>
+            <span data-editable="">KOC 短视频素材</span>
+          </div>
+          <div class="showcase-col-desc" data-editable="">妈妈亲拍 · 儿童实拍 · 场景化种草，产出 5000+ 条素材</div>
+          <div class="showcase-imgs">
+            <img src="assets/koc-video-1.png" alt="KOC短视频1"/>
+            <img src="assets/koc-video-2.png" alt="KOC短视频2"/>
+            <img src="assets/koc-video-3.png" alt="KOC短视频3"/>
+          </div>
+        </div>
+        <div class="showcase-arrow">
+          <div class="arrow-label" data-editable="">赋能自播<br/>素材投放</div>
+          <div class="arrow-icon">➜</div>
+        </div>
+        <div class="showcase-col right">
+          <div class="showcase-col-title">
+            <span class="badge">LIVE</span>
+            <span data-editable="">自播矩阵号（赛马）</span>
+          </div>
+          <div class="showcase-col-desc" data-editable="">爆款素材接入自播间 · 多号赛马 · 承接短视频流量</div>
+          <div class="showcase-imgs">
+            <img src="assets/live-1.png" alt="自播直播间1"/>
+            <img src="assets/live-2.png" alt="自播直播间2"/>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 底部 -->
+  <div class="footer">
+    <div class="brand" data-editable="">CASE · <b>妙可蓝多</b> · 微信生态 KOC 起量案例 · 一页速览版</div>
+  </div>
+
+</div>
+
+
+
+
+
+
+</body></html>
